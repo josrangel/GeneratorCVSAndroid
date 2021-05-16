@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">GeneratorCsv</string>
+    <string name="generate_csv">Generate CSV</string>
+</resources>
