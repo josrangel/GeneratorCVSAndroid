@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">GeneratorCsv</string>
     <string name="generate_csv">Generate CSV</string>
+    <string name="fail_permission">Don\'t permission granted</string>
 </resources>
