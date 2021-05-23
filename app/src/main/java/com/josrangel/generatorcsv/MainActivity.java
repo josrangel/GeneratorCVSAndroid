@@ -1,6 +1,7 @@
 package com.josrangel.generatorcsv;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -29,15 +30,19 @@ import androidx.core.content.ContextCompat;
 public class MainActivity extends AppCompatActivity {
     private String csvName;
     private static final int CODE_PERMISION_STORAGE=1;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         csvName = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyCsvFile.csv"); // Here csv file name is MyCsvFile.csv
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.working));
     }
 
     public void generateCsv(View v) {
+        progressDialog.show();
         checkPermissionStorage();
     }
 
@@ -46,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         if (statusPermision == PackageManager.PERMISSION_GRANTED) {
             makeCVS();
         } else {
+            progressDialog.dismiss();
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     CODE_PERMISION_STORAGE);
@@ -65,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             default:
         }
     }
+
     private void makeCVS(){
         CSVWriter writer = null;
         try {
@@ -78,12 +85,15 @@ public class MainActivity extends AppCompatActivity {
             writer.writeAll(data); // data is adding to csv
             writer.close();
             showMessage(getString(R.string.correct_file, csvName));
+            progressDialog.dismiss();
             startIntentCVS();
         } catch (IOException e) {
             e.printStackTrace();
+            progressDialog.dismiss();
             showMessage("Error: " + e.toString());
         }
     }
+
     /** Tutorial
      * https://sudarmuthu.com/blog/sharing-content-in-android-using-action_send-intent/
      * https://guides.codepath.com/android/Sharing-Content-with-Intents

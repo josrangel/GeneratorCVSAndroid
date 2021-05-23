@@ -6,4 +6,5 @@
     <string name="country">Country</string>
     <string name="capital">Capital</string>
     <string name="correct_file">Your file was generate correctly in %1$s</string>
+    <string name="working">Working...</string>
 </resources>
