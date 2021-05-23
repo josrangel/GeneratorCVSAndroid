@@ -1,9 +1,12 @@
 package com.josrangel.generatorcsv;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,6 +22,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+/**
+ * Tutorial
+ * https://stackoverflow.com/questions/11341931/how-to-create-a-csv-on-android
+ */
 public class MainActivity extends AppCompatActivity {
     private String csvName;
     private static final int CODIGO_PERMISOS_STORAGE=1;
@@ -71,11 +78,25 @@ public class MainActivity extends AppCompatActivity {
             writer.writeAll(data); // data is adding to csv
             writer.close();
             showMessage("Your file was generate correctly in " + csvName);
+            startIntentCVS();
             //callRead();
         } catch (IOException e) {
             e.printStackTrace();
             showMessage("Error: " + e.toString());
         }
+    }
+    /** Tutorial
+     * https://sudarmuthu.com/blog/sharing-content-in-android-using-action_send-intent/
+     * https://guides.codepath.com/android/Sharing-Content-with-Intents
+     */
+    private void startIntentCVS() {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        String uriPath=csvName;
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(uriPath));
+        Log.i("uirPath",uriPath);
+        shareIntent.setType("text/csv");
+        startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.cvs_file)));
     }
 
     private void showMessage(String text) {
