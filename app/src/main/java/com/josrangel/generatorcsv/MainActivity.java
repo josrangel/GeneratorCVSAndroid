@@ -28,7 +28,7 @@ import androidx.core.content.ContextCompat;
  */
 public class MainActivity extends AppCompatActivity {
     private String csvName;
-    private static final int CODIGO_PERMISOS_STORAGE=1;
+    private static final int CODE_PERMISION_STORAGE=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,20 +42,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkPermissionStorage() {
-        int estadoDePermiso = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (estadoDePermiso == PackageManager.PERMISSION_GRANTED) {
+        int statusPermision = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (statusPermision == PackageManager.PERMISSION_GRANTED) {
             makeCVS();
         } else {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    CODIGO_PERMISOS_STORAGE);
+                    CODE_PERMISION_STORAGE);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case CODIGO_PERMISOS_STORAGE:
+            case CODE_PERMISION_STORAGE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     checkPermissionStorage();
                 } else {
@@ -71,15 +71,14 @@ public class MainActivity extends AppCompatActivity {
             writer = new CSVWriter(new FileWriter(csvName));
 
             List<String[]> data = new ArrayList<>();
-            data.add(new String[]{"Country", "Capital"});
+            data.add(new String[]{getString(R.string.country), getString(R.string.capital)});
             data.add(new String[]{"India", "New Delhi"});
             data.add(new String[]{"United States", "Washington D.C"});
             data.add(new String[]{"Germany", "Berlin"});
             writer.writeAll(data); // data is adding to csv
             writer.close();
-            showMessage("Your file was generate correctly in " + csvName);
+            showMessage(getString(R.string.correct_file, csvName));
             startIntentCVS();
-            //callRead();
         } catch (IOException e) {
             e.printStackTrace();
             showMessage("Error: " + e.toString());
