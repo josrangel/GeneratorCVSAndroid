@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GeneradorCsv</string>
+    <string name="generate_csv">Generar CVS</string>
+    <string name="fail_permission">No se ha otorgado el permiso</string>
+    <string name="cvs_file">Archivo CVS</string>
+    <string name="country">Pais</string>
+    <string name="capital">Capital</string>
+    <string name="correct_file">Tu archivo se genero correctamente en %1$s</string>
+    <string name="working">Trabajando...</string>
+</resources>
